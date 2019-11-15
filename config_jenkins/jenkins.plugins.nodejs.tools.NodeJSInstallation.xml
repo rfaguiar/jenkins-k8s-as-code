@@ -1,4 +1,0 @@
-<?xml version='1.1' encoding='UTF-8'?>
-<jenkins.plugins.nodejs.tools.NodeJSInstallation_-DescriptorImpl plugin="nodejs@1.2.5">
-  <installations class="jenkins.plugins.nodejs.tools.NodeJSInstallation-array"/>
-</jenkins.plugins.nodejs.tools.NodeJSInstallation_-DescriptorImpl>

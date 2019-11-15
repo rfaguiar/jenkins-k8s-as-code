@@ -1,6 +1,0 @@
-Started by user [8mha:////4MM9CWVHtaacoMZqqgT1lHuHYVrUicCTlEk4qSdUwbKuAAAAlx+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAzWEgZu/dLi1CL9xJTczDwAj6GcLcAAAAA=[0madmin
-[EnvInject] - Loading node environment variables.
-Building in workspace /var/jenkins_home/workspace/service-user
-[service-user] $ /bin/sh -xe /tmp/jenkins629765280082084528.sh
-+ sleep 90
-Finished: SUCCESS

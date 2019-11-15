@@ -9,24 +9,27 @@ help:
 	echo "Rules:"
 	echo ""
 
-dockerb-jenkins-v1-0-0:
-	docker build --force-rm -t rfaguiar/jenkins-as-code:1.0.0 .;
+dockerb-jenkins-v2-0-2:
+	docker build --force-rm -t rfaguiar/jenkins-as-code:2.0.2 .;
 
-dockerp-jenkins-v1-0-0:
-	docker push rfaguiar/jenkins-as-code:1.0.0;
-
-dockerrun-jenkins-v1-0-0:
-	docker run -d \
+dockerrun-jenkins-v2-0-2: dockerb-jenkins-v2-0-2
+	docker run \
 	--network minha-rede \
 	--hostname jenkins \
-	--name jenkins-v1.0.0 \
+	--rm --name jenkins-v2.0.2 \
 	-p 8080:8080 \
-	-v pwdjenkins_home_100:/var/jenkins_home \
-	-v jenkins_backup_100:/srv/backup \
-	rfaguiar/jenkins-as-code:1.0.0;
+	-v ${pwd}/downloads:/var/jenkins_home/downloads \
+    -v ${pwd}/m2deps:/var/jenkins_home/.m2/repository/ \
+	rfaguiar/jenkins-as-code:2.0.2;
 
-dockerl-jenkins-v1-0-0:
-	docker logs -f jenkins-v1.0.0;
+dockerl-jenkins-v2-0-2:
+	docker logs -f jenkins-v2.0.2;
 
-dockerrm-jenkins-v1-0-0:
-	docker container rm -f jenkins-v1.0.0;
+dockerp-jenkins-v2-0-2:
+	docker push rfaguiar/jenkins-as-code:2.0.2;
+
+dockerrm-jenkins-v2-0-2:
+	docker container rm -f jenkins-v2.0.2;
+
+dockersetupandrun:
+	sh ./setup-and-run.sh;

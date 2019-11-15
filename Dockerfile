@@ -1,11 +1,15 @@
-FROM jenkins/jenkins:2.204
-USER root
-RUN apt-get update && apt-get install -y make git openjdk-8-jdk
-RUN mkdir /srv/backup && chown jenkins:jenkins /srv/backup
+FROM jenkins/jenkins:2.196
+LABEL description="this use jenkins base version 2.196 and instaled last versions pluguins and custom configs"
+ARG master_image_version="v2.0.2"
+ENV master_image_version $master_image_version
+
 USER jenkins
-RUN echo 2.204 > /usr/share/jenkins/ref/jenkins.install.UpgradeWizard.state
-RUN echo 2.204 > /usr/share/jenkins/ref/jenkins.install.InstallUtil.lastExecVersion
+RUN echo 2.196 > /usr/share/jenkins/ref/jenkins.install.UpgradeWizard.state
+RUN echo 2.196 > /usr/share/jenkins/ref/jenkins.install.InstallUtil.lastExecVersion
+# Plugin Setup
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
-COPY --chown=jenkins:jenkins config_jenkins /var/jenkins_home
+# Auto Configuration Scripts
+COPY .ssh/.password /var/jenkins_home/.ssh/
+COPY groovy/* /usr/share/jenkins/ref/init.groovy.d/
+COPY config/* ${JENKINS_HOME}/config/

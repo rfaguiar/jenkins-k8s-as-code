@@ -1,5 +1,8 @@
 
 
+###PreReq:  
+create file ./ssh/.password and put password for using users config um /groovy/credentials.groovy configuration
+
 Extract plugin list:  
 http://<JENKINS_URL>/script  
 
