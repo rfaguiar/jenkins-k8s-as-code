@@ -1,2 +1,5 @@
 /.idea/
 /.ssh/
+/m2deps/*
+/jobs/*
+/.gradle/

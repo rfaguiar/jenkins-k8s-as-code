@@ -1,5 +1,6 @@
 # defaul shell
 SHELL = /bin/bash
+PWD = ${pwd}
 
 # Rule "help"
 .PHONY: help
@@ -18,8 +19,8 @@ dockerrun-jenkins-v2-0-2: dockerb-jenkins-v2-0-2
 	--hostname jenkins \
 	--rm --name jenkins-v2.0.2 \
 	-p 8080:8080 \
-	-v ${pwd}/downloads:/var/jenkins_home/downloads \
-    -v ${pwd}/m2deps:/var/jenkins_home/.m2/repository/ \
+	-v $(shell pwd)/downloads/:/var/jenkins_home/downloads/ \
+   	-v $(shell pwd)/m2deps/:/var/jenkins_home/.m2/repository/ \
 	rfaguiar/jenkins-as-code:2.0.2;
 
 dockerl-jenkins-v2-0-2:
