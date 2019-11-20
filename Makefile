@@ -10,27 +10,61 @@ help:
 	echo "Rules:"
 	echo ""
 
-dockerb-jenkins-v2-0-2:
-	docker build --force-rm -t rfaguiar/jenkins-as-code:2.0.2 .;
+dockerb-jenkins-v2-2-0:
+	docker build --force-rm -t rfaguiar/jenkins-as-code:2.2.0 .;
 
-dockerrun-jenkins-v2-0-2: dockerb-jenkins-v2-0-2
+dockerrun-jenkins-v2-2-0: dockerb-jenkins-v2-2-0
 	docker run \
 	--network minha-rede \
 	--hostname jenkins \
-	--rm --name jenkins-v2.0.2 \
+	--rm --name jenkins-v2.2.0 \
 	-p 8080:8080 \
+	-e KUBERNETES_SERVER_URL='http://kubernetes:4433' \
+	-e JENKINS_SERVER_URL='http://jenkins:8080' \
 	-v $(shell pwd)/downloads/:/var/jenkins_home/downloads/ \
    	-v $(shell pwd)/m2deps/:/var/jenkins_home/.m2/repository/ \
-	rfaguiar/jenkins-as-code:2.0.2;
+	rfaguiar/jenkins-as-code:2.2.0;
 
-dockerl-jenkins-v2-0-2:
-	docker logs -f jenkins-v2.0.2;
+dockerl-jenkins-v2-2-0:
+	docker logs -f jenkins-v2.2.0;
 
-dockerp-jenkins-v2-0-2:
-	docker push rfaguiar/jenkins-as-code:2.0.2;
+dockerp-jenkins-v2-2-0:
+	docker push rfaguiar/jenkins-as-code:2.2.0;
 
-dockerrm-jenkins-v2-0-2:
-	docker container rm -f jenkins-v2.0.2;
+dockerrm-jenkins-v2-2-0:
+	docker container rm -f jenkins-v2.2.0;
 
 dockersetupandrun:
 	sh ./setup-and-run.sh;
+
+k-setup:
+	minikube -p minikube start --cpus 2 --memory=8192; \
+	minikube -p minikube addons enable ingress; \
+	minikube -p minikube addons enable metrics-server; \
+	kubectl config set-context $$(kubectl config current-context) --namespace=default;
+
+k-dashboard:
+	minikube -p minikube dashboard;
+
+k-start:
+	minikube start; \
+	kubectl config set-context $$(kubectl config current-context) --namespace=default;
+
+k-ip:
+	minikube -p minikube ip
+
+k-stop:
+	minikube -p minikube stop;
+
+ku-watch:
+	kubectl get pods -o wide -w;
+
+k-build-jenkins:
+	eval $$(minikube -p minikube docker-env) && docker build --force-rm -t rfaguiar/jenkins-as-code:2.2.1 .;
+
+k-deploy-jenkins:
+	kubectl apply -f kubernetes/;
+
+k-delete-jenkins:
+	kubectl delete -f kubernetes/ \
+	eval $$(minikube -p minikube docker-env) && docker rmi rfaguiar/jenkins-as-code:2.2.1;

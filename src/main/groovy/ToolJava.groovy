@@ -2,7 +2,7 @@ import hudson.model.JDK
 import hudson.tools.InstallSourceProperty
 import hudson.tools.ZipExtractionInstaller
 
-def descriptor = new JDK.DescriptorImpl();
+def descriptor = new JDK.DescriptorImpl()
 
 def List<JDK> installations = []
 
@@ -17,8 +17,8 @@ properties.jdk.each { javaTool ->
 
         // def installer = new ZipExtractionInstaller(javaTool.value.label as String, javaTool.value.url as String, javaTool.value.subdir as String);
         def installer = new ZipExtractionInstaller( javaTool.value.get('label', ""),
-                                                    javaTool.value.get('url', ""),
-                                                    javaTool.value.get('subdir', "") )
+                javaTool.value.get('url', ""),
+                javaTool.value.get('subdir', "") )
         def jdk = new JDK(javaTool.value.name as String, null, [new InstallSourceProperty([installer])])
         installations.add(jdk)
     }

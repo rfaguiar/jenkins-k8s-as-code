@@ -3,10 +3,10 @@ import hudson.model.*
 import jenkins.model.*
 import java.net.InetAddress
 
-// load helpers and read properties
+// load Helpers and read properties
 def home_dir = System.getenv("JENKINS_HOME")
 GroovyShell shell = new GroovyShell()
-def helpers = shell.parse(new File("$home_dir/init.groovy.d/helpers.groovy"))
+def helpers = shell.parse(new File("$home_dir/init.groovy.d/Helpers.groovy"))
 def properties = new ConfigSlurper().parse(new File("$home_dir/config/globals.properties").toURI().toURL())
 
 println "############################ STARTING GLOBAL SETUP ############################"
@@ -51,7 +51,7 @@ if(properties.global.smtp.enabled) {
   def emailDesc = inst.getDescriptor(hudson.tasks.Mailer)
   emailDesc.setSmtpHost(properties.global.smtp.host)
   emailDesc.setSmtpPort(properties.global.smtp.port)
-  emailDesc.setReplyToAddress(properties.global.smtp.reply_to_address)  
+  emailDesc.setReplyToAddress(properties.global.smtp.reply_to_address)
   if(properties.global.smtp.authentication.enabled) {
     File pwdFile = new File(properties.global.smtp.authentication.passwordFile)
     if(!pwdFile.exists()) {
@@ -71,10 +71,10 @@ if ( env.containsKey('master_image_version') ) {
   def date = new Date()
   sdf = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss")
   systemMessage = "Este Jenkins foi configurado e provisionado via código.\n\n" +
-                  "Todas as alterações feitas de forma manual serão perdidas no próximo restart.\n " +
-                  "Alterações devem ser feitas em: ${properties.global.variables.default_repo}\n\n" +
-                  "Jenkins-Docker Version: ${env['master_image_version']}\n" +
-                  "Deployment date: ${sdf.format(date)}\n\n"
+          "Todas as alterações feitas de forma manual serão perdidas no próximo restart.\n " +
+          "Alterações devem ser feitas em: ${properties.global.variables.default_repo}\n\n" +
+          "Jenkins-Docker Version: ${env['master_image_version']}\n" +
+          "Deployment date: ${sdf.format(date)}\n\n"
   println "Set system message to:\n ${systemMessage}"
   Jenkins.instance.setSystemMessage(systemMessage)
 } else {

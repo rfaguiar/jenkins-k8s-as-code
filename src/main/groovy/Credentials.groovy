@@ -27,20 +27,20 @@ properties.credentials.each {
     case "ssh":
       println ">>> Create ssh credentials for user ${it.value.userId} with SSH private key ${it.value.path}"
       creds = new BasicSSHUserPrivateKey(CredentialsScope.GLOBAL,
-                                         it.value.credentialsId,
-                                         it.value.userId,
-                                         new BasicSSHUserPrivateKey.FileOnMasterPrivateKeySource(it.value.path),
-                                         it.value.passphrase,
-                                         it.value.description)
+              it.value.credentialsId,
+              it.value.userId,
+              new BasicSSHUserPrivateKey.FileOnMasterPrivateKeySource(it.value.path),
+              it.value.passphrase,
+              it.value.description)
       credentials_store.addCredentials(global_domain, creds)
       break
     case "password":
       println ">>> Create credentials for user ${it.value.userId} with the password from ${it.value.path}"
       creds = new UsernamePasswordCredentialsImpl(CredentialsScope.GLOBAL,
-                                                  it.value.credentialsId,
-                                                  it.value.description,
-                                                  it.value.userId,
-                                                  new File(it.value.path).text.trim())
+              it.value.credentialsId,
+              it.value.description,
+              it.value.userId,
+              new File(it.value.path).text.trim())
       credentials_store.addCredentials(global_domain, creds)
       break
     default:

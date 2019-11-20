@@ -8,7 +8,6 @@ import hudson.util.DescribableList
 import jenkins.model.Jenkins
 
 println "############################ STARTING MAVEN CONFIG ############################"
-
 def home_dir = System.getenv("JENKINS_HOME")
 def properties = new ConfigSlurper().parse(new File("$home_dir/config/tools.properties").toURI().toURL())
 
@@ -19,7 +18,7 @@ List<MavenInstallation> installations = []
 properties.maven.each { mavenTool ->
     println(">>> Setting up tool: ${mavenTool.value.name} ")
     def describableList = new DescribableList<ToolProperty<?>, ToolPropertyDescriptor>()
-    def installer = new ZipExtractionInstaller(mavenTool.value.get("label", ""),
+    def installer = new ZipExtractionInstaller(mavenTool.value.label as String,
             mavenTool.value.url as String,
             mavenTool.value.subdir as String)
 

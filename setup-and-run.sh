@@ -29,6 +29,8 @@ if [ ! -d jobs ]; then
 fi
 
 docker run -p ${jenkins_port}:8080 \
+    -e KUBERNETES_SERVER_URL='http://kubernetes:4433' \
+    -e JENKINS_SERVER_URL='http://jenkins:8080' \
     -v `pwd`/downloads:/var/jenkins_home/downloads \
     -v `pwd`/jobs:/var/jenkins_home/jobs/ \
     -v `pwd`/m2deps:/var/jenkins_home/.m2/repository/ \
