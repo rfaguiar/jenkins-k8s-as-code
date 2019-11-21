@@ -57,6 +57,8 @@ spec:
                   fieldPath: spec.serviceAccountName
             - name: JENKINS_URL
               value: http://jenkins:8080
+            - name: JENKINS_SERVER_URL
+              value: http://jenkins:8080
           readinessProbe:
             httpGet:
               path: /login

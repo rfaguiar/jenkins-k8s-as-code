@@ -60,8 +60,9 @@ k-stop:
 ku-watch:
 	kubectl get pods -o wide -w;
 
+# eval $(minikube -p minikube docker-env)
 k-build-jenkins:
-	eval $$(minikube -p minikube docker-env) && docker build --force-rm -t rfaguiar/jenkins-as-code:2.2.2 .;
+	eval $$(minikube -p minikube docker-env) && docker build --force-rm -t rfaguiar/jenkins-as-code:2.2.2 . && docker pull cloudbees/java-build-tools:2.0.0;
 
 k-deploy-jenkins:
 	kubectl apply -f kubernetes/;
