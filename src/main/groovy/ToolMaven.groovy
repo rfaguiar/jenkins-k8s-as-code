@@ -18,11 +18,17 @@ List<MavenInstallation> installations = []
 properties.maven.each { mavenTool ->
     println(">>> Setting up tool: ${mavenTool.value.name} ")
     def describableList = new DescribableList<ToolProperty<?>, ToolPropertyDescriptor>()
-    def installer = new ZipExtractionInstaller(mavenTool.value.label as String,
-            mavenTool.value.url as String,
-            mavenTool.value.subdir as String)
-
-    describableList.add(new InstallSourceProperty([installer]))
+    mavenTool.value.get('installers').each { installerItem ->
+        def installer = null
+        if(installerItem.value.type == 'ZipExtractionInstaller') {
+            installer = new ZipExtractionInstaller(installerItem.value.label as String,
+                    installerItem.value.url as String,
+                    installerItem.value.subdir as String)
+        } else if (installerItem.value.type == 'MavenInstaller') {
+            installer = new Maven.MavenInstaller(installerItem.value.version)
+        }
+        describableList.add(new InstallSourceProperty([installer]))
+    }
 
     installations.add(new MavenInstallation(mavenTool.value.name as String,
             "", describableList))

@@ -5,7 +5,7 @@ node {
     stage('Clone sources') {
         git url: "https://github.com/jenkins-docs/simple-java-maven-app.git"
     }
-    withEnv(["JAVA_HOME=${ tool 'jdk8' }", "PATH+MAVEN=${tool 'maven3'}/bin:${env.JAVA_HOME}/bin"]) {
+    withMaven(maven: 'maven3') {
         stage('JUnit') {
             sh "mvn clean test"
         }

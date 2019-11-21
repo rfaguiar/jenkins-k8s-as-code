@@ -1,6 +1,6 @@
 import javaposse.jobdsl.plugin.*
 
-node {
+node('kube') {
 
     stage('Clone sources') {
         git url: "https://github.com/jenkins-docs/simple-java-maven-app.git"
@@ -8,10 +8,6 @@ node {
     withMaven(maven: 'maven3') {
         stage('JUnit') {
             sh "mvn clean test"
-        }
-        stage('Another') {
-            echo ">>> Outro estagio <<<"
-            sh 'sleep 3'
         }
         stage('Maven build') {
             sh "mvn --batch-mode -U -e -Dmaven.test.skip=true install"
