@@ -1,4 +1,5 @@
 ### Instructions:
+When first up jenkins master go to Manage jenkins -> Configuration system -> Cloud -> Kubernetes -> Pod Templates -> Containers -> Container template -> Working directory and delete content
 https://gitlab.com/rocha.public/cursos/jenkins-em-larga-escala/wikis/home
 
 ###PreReq:  
@@ -14,3 +15,4 @@ Jenkins.instance.pluginManager.plugins.each{
 
 
 awk -v prefix="compile 'org.jenkins-ci.plugins:" -v postfix="'" '{print prefix $0 postfix}' plugins.txt > dependencies.txt
+
