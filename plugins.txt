@@ -148,3 +148,5 @@ credentials-binding:1.20
 artifactdeployer:1.2
 config-file-provider:3.6.2
 pipeline-input-step:2.11
+h2-api:1.4.199
+pipeline-maven:3.8.2
