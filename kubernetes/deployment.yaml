@@ -22,7 +22,7 @@ spec:
         environment: dev
     spec:
       containers:
-        - image: rfaguiar/jenkins-as-code:2.2.2
+        - image: rfaguiar/jenkins-as-code:2.3.0
           name: jenkins
           imagePullPolicy: IfNotPresent
           ports:
