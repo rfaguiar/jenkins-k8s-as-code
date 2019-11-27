@@ -3,26 +3,26 @@ kind: Deployment
 metadata:
   labels:
     app: jenkins
-    version: v2-3-0
-  name: jenkins-v2-3-0
+    version: v2-4-0
+  name: jenkins-v2-4-0
   namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: jenkins
-      version: v2-3-0
+      version: v2-4-0
   strategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
         app: jenkins
-        version: v2-3-0
+        version: v2-4-0
         environment: dev
     spec:
       containers:
-        - image: rfaguiar/jenkins-as-code:2.3.0
+        - image: rfaguiar/jenkins-as-code:2.4.0
           name: jenkins
           imagePullPolicy: IfNotPresent
           ports:

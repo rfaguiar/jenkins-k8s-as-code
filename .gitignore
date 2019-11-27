@@ -3,3 +3,5 @@
 /m2deps/*
 /jobs/*
 /.gradle/
+kubernetes/postfix-sendgrid/postfix-sendgrid-secret.yaml
+kubernetes/postfix-sendgrid/.env
