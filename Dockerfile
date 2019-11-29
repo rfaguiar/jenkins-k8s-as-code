@@ -1,7 +1,7 @@
 FROM jenkins/jenkins:2.196
 LABEL description="this use jenkins base version 2.196 and instaled last versions pluguins and custom configs"
 
-ARG master_image_version="v.2.5.0"
+ARG master_image_version="v.2.6.0"
 ENV master_image_version $master_image_version
 
 USER jenkins

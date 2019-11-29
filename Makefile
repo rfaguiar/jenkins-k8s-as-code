@@ -10,30 +10,36 @@ help:
 	echo "Rules:"
 	echo ""
 
-dockerb-jenkins-v2-5-3:
-	docker build --force-rm -t rfaguiar/jenkins-as-code:2.5.3 .;
+dockerb-jenkins-master-v2-6-0:
+	docker build --force-rm -t rfaguiar/jenkins-as-code:2.6.0 .;
 
-dockerrun-jenkins-v2-5-3: dockerb-jenkins-v2-5-3
+dockerb-jenkins-slave-v1-0-0:
+	docker build --force-rm -t rfaguiar/jenkins-slave:1.0.0 ./slave/;
+
+dockerrun-jenkins-master-v2-6-0: dockerb-jenkins-master-v2-6-0
 	docker run \
 	--network minha-rede \
 	--hostname jenkins \
-	--rm --name jenkins-v2.5.3 \
+	--rm --name jenkins-v2.6.0 \
 	-p 8080:8080 \
 	-e KUBERNETES_SERVER_URL='http://kubernetes:4433' \
 	-e JENKINS_URL='http://jenkins:8080' \
 	-e JAVA_OPTS='-Djenkins.install.runSetupWizard=false' \
 	-v $(shell pwd)/downloads/:/var/jenkins_home/downloads/ \
    	-v $(shell pwd)/m2deps/:/var/jenkins_home/.m2/repository/ \
-	rfaguiar/jenkins-as-code:2.5.3;
+	rfaguiar/jenkins-as-code:2.6.0;
 
-dockerl-jenkins-v2-5-3:
-	docker logs -f jenkins-v2.5.3;
+dockerl-jenkins-master-v2-6-0:
+	docker logs -f jenkins-v2.6.0;
 
-dockerp-jenkins-v2-5-3:
-	docker push rfaguiar/jenkins-as-code:2.5.3;
+dockerp-jenkins-master-v2-6-0:
+	docker push rfaguiar/jenkins-as-code:2.6.0;
 
-dockerrm-jenkins-v2-5-3:
-	docker container rm -f jenkins-v2.5.3;
+dockerp-jenkins-slave-v1-0-0:
+	docker push rfaguiar/jenkins-slave:1.0.0;
+
+dockerrm-jenkins-master-v2-6-0:
+	docker container rm -f jenkins-v2.6.0;
 
 dockersetupandrun:
 	sh ./setup-and-run.sh;
@@ -62,7 +68,7 @@ ku-watch:
 
 # eval $(minikube -p minikube docker-env)
 k-build-jenkins:
-	eval $$(minikube -p minikube docker-env) && docker build --force-rm -t rfaguiar/jenkins-as-code:2.5.3 . && docker pull cloudbees/java-build-tools:2.0.0;
+	eval $$(minikube -p minikube docker-env) && docker build --force-rm -t rfaguiar/jenkins-as-code:2.6.0 . && docker pull cloudbees/java-build-tools:2.0.0;
 
 k-deploy-jenkins:
 	kubectl apply -f kubernetes/;
