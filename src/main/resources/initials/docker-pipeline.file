@@ -1,0 +1,6 @@
+
+node('jenkins-slave-docker') {
+    stage ('docker ls') {
+        sh("docker image ls")
+    }
+}

@@ -1,9 +1,15 @@
 import javaposse.jobdsl.plugin.*
 
 node('kube') {
+    environment {
+        GIT_URL = 'https://github.com/jenkins-docs/simple-java-maven-app.git'
+        DOCKERHUB_USER = 'rfaguiar'
+        DOCKER_IMAGE = 'jenkins-as-code'
+        DOCKER_IMAGE_VERSION = '2.0.0'
+    }
 
     stage('Clone sources') {
-        git url: "https://github.com/jenkins-docs/simple-java-maven-app.git"
+        git url: ${GIT_URL}
     }
     withMaven(maven: 'maven3') {
         stage('JUnit') {
@@ -12,6 +18,9 @@ node('kube') {
         stage('Maven build') {
             sh "mvn --batch-mode -U -e -Dmaven.test.skip=true install"
         }
+    }
+    stage ('docker build') {
+        sh "docker build --force-rm -t ${DOCKERHUB_USER}/${DOCKER_IMAGE}:${DOCKER_IMAGE_VERSION} ."
     }
     stage('Deployment') {
         echo '>>> Chame aqui sua ferramenta de CD! <<<'

@@ -4,7 +4,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
   labels:
-    app: jenkins
+    app: jenkins-master
   name: jenkins-ing
   namespace: default
 spec:

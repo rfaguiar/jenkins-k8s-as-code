@@ -4,7 +4,7 @@ metadata:
   name: jenkins
   namespace: default
   labels:
-    app: jenkins
+    app: jenkins-master
 spec:
 #  type: ClusterIP
   ports:
@@ -15,4 +15,4 @@ spec:
       port: 50000
       targetPort: 50000
   selector:
-    app: jenkins
+    app: jenkins-master

@@ -2,6 +2,8 @@ import jenkins.model.Jenkins
 import org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate
 import org.csanchez.jenkins.plugins.kubernetes.KubernetesCloud
 import org.csanchez.jenkins.plugins.kubernetes.PodTemplate
+import org.csanchez.jenkins.plugins.kubernetes.volumes.HostPathVolume
+import org.csanchez.jenkins.plugins.kubernetes.volumes.PodVolume
 
 println "############################ KUBERNETES CLOUDs SETUP ############################"
 
@@ -66,15 +68,31 @@ def createBasicPODTemplate(podTemplate) {
     defaultPod.setName(podTemplate.value.get('name'))
     defaultPod.setNamespace(podTemplate.value.get('namespace'))
     defaultPod.setLabel(podTemplate.value.get('label'))
+
+    List<PodVolume> listPodVolume = new ArrayList<>()
+    podTemplate.value.get('volumes').each { volumeTemplate ->
+        listPodVolume.add(createVolume(volumeTemplate))
+    }
+    defaultPod.setVolumes(listPodVolume)
     return defaultPod
 }
 
 def createBasicContainerTemplate(containerTemplate) {
     ContainerTemplate basicContainerTemplate = new ContainerTemplate(
-            containerTemplate.value.get('name'),
-            containerTemplate.value.get('image'),
-            containerTemplate.value.get('command'),
-            containerTemplate.value.get('cat'))
+            containerTemplate.value.get('name', ''),
+            containerTemplate.value.get('image', ''),
+            containerTemplate.value.get('command', ''),
+            containerTemplate.value.get('args', ''))
+    basicContainerTemplate.setWorkingDir(containerTemplate.value.get('workDirectory', ''))
     basicContainerTemplate.setTtyEnabled(containerTemplate.value.get('ttyEnabled', true))
     return basicContainerTemplate;
+}
+
+def createVolume(volumeTemplate) {
+    String hostPath = volumeTemplate.value.get('hostPath')
+    String mountPath = volumeTemplate.value.get('mountPath')
+    if (!mountPath.isEmpty() && !mountPath.isEmpty()) {
+        return new HostPathVolume(hostPath, mountPath);
+    }
+    return null;
 }

@@ -2,28 +2,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: jenkins
-    version: v2-4-0
-  name: jenkins-v2-4-0
+    app: jenkins-master
+  name: jenkins-master
   namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: jenkins
-      version: v2-4-0
+      app: jenkins-master
   strategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
-        app: jenkins
-        version: v2-4-0
+        app: jenkins-master
         environment: dev
     spec:
       containers:
-        - image: rfaguiar/jenkins-as-code:2.4.0
-          name: jenkins
+        - image: rfaguiar/jenkins-as-code:2.5.2
+          name: jenkins-master
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
@@ -66,3 +63,11 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 10
             failureThreshold: 10
+#          volumeMounts:
+#            - name: jenkins-home
+#              mountPath: "/var/jenkins_home"
+#      volumes:
+#        - name: jenkins-home
+#          persistentVolumeClaim:
+#            claimName: "jenkins-volume-claim"
+#            readOnly: false

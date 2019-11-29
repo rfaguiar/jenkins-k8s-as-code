@@ -4,7 +4,7 @@ metadata:
   name: jenkins-lb
   namespace: default
   labels:
-    app: jenkins
+    app: jenkins-master
 spec:
   type: LoadBalancer
   ports:
@@ -17,4 +17,4 @@ spec:
       port: 50000
       targetPort: 50000
   selector:
-    app: jenkins
+    app: jenkins-master

@@ -26,7 +26,7 @@ properties.initialjobs.each { jobProperties ->
   String pipelineScript = new File("$home_dir/config/initials/${jobProperties.value.pipelineFile}").text
 
   project.setDefinition(new CpsFlowDefinition(pipelineScript))
-  project.addTrigger(new TimerTrigger("@midnight"))
+//  project.addTrigger(new TimerTrigger("@midnight"))
   jobProperties.value.parameters.each { key, value ->
     helpers.addBuildParameter(project, key, value)
   }
@@ -34,7 +34,7 @@ properties.initialjobs.each { jobProperties ->
 }
 instance.reload()
 
-properties.initialjobs.each { job ->
-  println ">>> Schedule ${job.value.name} seed jod"
-  instance.getJob(job.value.name).scheduleBuild()
-}
+//properties.initialjobs.each { job ->
+//  println ">>> Schedule ${job.value.name} seed jod"
+//  instance.getJob(job.value.name).scheduleBuild()
+//}
