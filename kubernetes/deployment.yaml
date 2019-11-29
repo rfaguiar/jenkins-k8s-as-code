@@ -19,7 +19,7 @@ spec:
         environment: dev
     spec:
       containers:
-        - image: rfaguiar/jenkins-as-code:2.5.2
+        - image: rfaguiar/jenkins-as-code:2.5.3
           name: jenkins-master
           imagePullPolicy: IfNotPresent
           ports:
