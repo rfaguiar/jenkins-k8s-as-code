@@ -1,8 +1,8 @@
 node('jenkins-slave-docker') {
     def project = 'rfaguiar'
     def appName = 'brewer'
-    def imageVersion = '1.0'
-    def imageTag = "${project}/${appName}:${imageVersion}.${env.BUILD_NUMBER}"
+    def imageVersion = '1'
+    def imageTag = "${project}/${appName}:${imageVersion}.${env.BUILD_DATE_FORMATTED}-${env.BUILD_NUMBER}"
 
     stage('Clone sources') {
         git branch: 'master', url: 'https://github.com/rfaguiar/spring-mvc-brewer.git'
@@ -18,11 +18,14 @@ node('jenkins-slave-docker') {
     //}
 
     stage ('docker build') {
-        sh("docker build -t ${imageTag} .")
-        //docker.build("rfaguiar/brewer:1.0.0")
+        docker.build("${imageTag}")
     }
     
     stage('docker push') {
-        docker.push("rfaguiar/brewer:1.0.0")
+        docker.push("${imageTag}")
+    }
+
+    stage('docker remove imageTag') {
+        docker.rmi("${imageTag}")
     }
 }

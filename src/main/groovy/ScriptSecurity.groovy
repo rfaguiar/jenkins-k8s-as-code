@@ -3,7 +3,7 @@ import jenkins.model.*
 import hudson.model.*
 
 def home_dir = System.getenv("JENKINS_HOME")
-def properties = new ConfigSlurper().parse(new File("$home_dir/config/authentication.properties").toURI().toURL())
+def properties = new ConfigSlurper().parse(new File("/usr/share/jenkins/config/authentication.properties").toURI().toURL())
 
 // JobDSL security is enabled by default
 if(properties.scriptSecurity.jobDsl == false) {

@@ -4,9 +4,9 @@ metadata:
   name: jenkins-volume-claim
   namespace: default
 spec:
-  storageClassName: manual
+  storageClassName: "local-storage"
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 3Gi
+      storage: 10Gi

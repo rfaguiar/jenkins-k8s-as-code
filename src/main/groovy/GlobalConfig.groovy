@@ -7,7 +7,7 @@ import java.net.InetAddress
 def home_dir = System.getenv("JENKINS_HOME")
 GroovyShell shell = new GroovyShell()
 def helpers = shell.parse(new File("$home_dir/init.groovy.d/Helpers.groovy"))
-def properties = new ConfigSlurper().parse(new File("$home_dir/config/globals.properties").toURI().toURL())
+def properties = new ConfigSlurper().parse(new File("/usr/share/jenkins/config/globals.properties").toURI().toURL())
 
 println "############################ STARTING GLOBAL SETUP ############################"
 

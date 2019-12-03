@@ -9,7 +9,7 @@ import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition
 def home_dir = System.getenv("JENKINS_HOME")
 GroovyShell shell = new GroovyShell()
 def helpers = shell.parse(new File("$home_dir/init.groovy.d/Helpers.groovy"))
-def properties = new ConfigSlurper().parse(new File("$home_dir/config/initial-jobs.properties").toURI().toURL())
+def properties = new ConfigSlurper().parse(new File("/usr/share/jenkins/config/initial-jobs.properties").toURI().toURL())
 def instance = Jenkins.getInstanceOrNull()
 
 println "############################ STARTING INITIAL JOBS SETUP ############################"
@@ -23,7 +23,7 @@ properties.initialjobs.each { jobProperties ->
   println ">>> Criando JOB ${jobProperties.value.name}"
 
   def project = instance.createProject(WorkflowJob.class, jobProperties.value.name)
-  String pipelineScript = new File("$home_dir/config/initials/${jobProperties.value.pipelineFile}").text
+  String pipelineScript = new File("/usr/share/jenkins/config/initials/${jobProperties.value.pipelineFile}").text
 
   project.setDefinition(new CpsFlowDefinition(pipelineScript))
 //  project.addTrigger(new TimerTrigger("@midnight"))

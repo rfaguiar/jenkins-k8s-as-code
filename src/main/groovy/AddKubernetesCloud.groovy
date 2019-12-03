@@ -17,7 +17,7 @@ def jenkins = Jenkins.getInstanceOrNull()
 def cloudList = jenkins.clouds
 
 def home_dir = System.getenv("JENKINS_HOME")
-def properties = new ConfigSlurper().parse(new File("$home_dir/config/clouds.properties").toURI().toURL())
+def properties = new ConfigSlurper().parse(new File("/usr/share/jenkins/config//clouds.properties").toURI().toURL())
 
 // KUBERNETES CLOUD (URLs)
 //     > POD TEMPLATE [List] (Namespace, Label)
