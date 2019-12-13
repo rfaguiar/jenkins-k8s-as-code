@@ -13,8 +13,8 @@ help:
 dockerb-jenkins-master-v2-6-4:
 	docker build --force-rm -t rfaguiar/jenkins-as-code:2.6.4 .;
 
-dockerb-jenkins-slave-v1-0-0:
-	docker build --force-rm -t rfaguiar/jenkins-slave:1.0.0 ./slave/;
+dockerb-jenkins-slave-v1-1-0:
+	docker build --force-rm -t rfaguiar/jenkins-slave:1.1.0 ./slave/;
 
 dockerrun-jenkins-master-v2-6-4: dockerb-jenkins-master-v2-6-4
 	docker run \
@@ -35,8 +35,8 @@ dockerl-jenkins-master-v2-6-4:
 dockerp-jenkins-master-v2-6-4:
 	docker push rfaguiar/jenkins-as-code:2.6.4;
 
-dockerp-jenkins-slave-v1-0-0:
-	docker push rfaguiar/jenkins-slave:1.0.0;
+dockerp-jenkins-slave-v1-1-0:
+	docker push rfaguiar/jenkins-slave:1.1.0;
 
 dockerrm-jenkins-master-v2-6-4:
 	docker container rm -f jenkins-v2.6.4;
