@@ -5,3 +5,4 @@
 /.gradle/
 kubernetes/postfix-sendgrid/postfix-sendgrid-secret.yaml
 kubernetes/postfix-sendgrid/.env
+/jenkins_home/
