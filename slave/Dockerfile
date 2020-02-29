@@ -6,12 +6,17 @@ LABEL Description="This is a base image, which allows connecting Jenkins agents 
 USER root
 RUN apt-get update
 RUN apt-get install -y openjdk-11-jre-headless apt-transport-https ca-certificates curl git software-properties-common
+RUN apt-get install -y wget
 
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 RUN apt-key fingerprint 0EBFCD88
 RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 RUN apt-get update
 RUN apt-get install -y docker-ce
+
+RUN wget https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
+RUN tar -vzxf openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
+RUN cp openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/oc /usr/local/bin/
 
 ARG VERSION=3.35
 ARG user=jenkins

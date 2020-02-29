@@ -7,7 +7,7 @@ import org.csanchez.jenkins.plugins.kubernetes.volumes.PodVolume
 
 println "############################ KUBERNETES CLOUDs SETUP ############################"
 
-if( ! System.getenv().containsKey('KUBERNETES_SERVER_URL') ) {
+if( ! System.getenv().containsKey('KUBERNETES_SERVER_URL')) {
     println(">>> ENV VAR 'KUBERNETES_SERVER_URL' not found")
     println(">>> Please set them before start Jenkins")
     return
@@ -16,12 +16,26 @@ if( ! System.getenv().containsKey('KUBERNETES_SERVER_URL') ) {
 def jenkins = Jenkins.getInstanceOrNull()
 def cloudList = jenkins.clouds
 
-def home_dir = System.getenv("JENKINS_HOME")
-def properties = new ConfigSlurper().parse(new File("/usr/share/jenkins/config//clouds.properties").toURI().toURL())
+if (cloudList.isEmpty()) {
+    println ">>> cloudList Empty"
+} else {
+    println ">>> cloudList NOT Empty"
+}
 
+def home_dir = System.getenv("JENKINS_HOME")
+def properties = new ConfigSlurper().parse(new File("/usr/share/jenkins/config/clouds.properties").toURI().toURL())
+//println("Clouds existentes: " + Jenkins.getInstanceOrNull().clouds.size())
 // KUBERNETES CLOUD (URLs)
 //     > POD TEMPLATE [List] (Namespace, Label)
 //         > CONTAINER TEMPLATE [List] (Docker Image, Docker args)
+
+//println "#######>>> Jenkins: " + Jenkins.getInstanceOrNull()
+//Jenkins.getInstanceOrNull().clouds.each { cloud ->
+//    println "#######>>> cloud: " + cloud.getDisplayName()
+////        if(cloud.getDisplayName().equals(cloudKubernetes.value.get('name'))) {
+////            return
+////        }
+//}
 
 properties.kubernetes.each { cloudKubernetes ->
     println ">>> Kubernetes Cloud Setting up: " + cloudKubernetes.value.get('name')
@@ -41,6 +55,7 @@ properties.kubernetes.each { cloudKubernetes ->
         podTemplateList.add(newPodTemplate)
     }
     def kubernetesCloud = createKubernetesCloud(cloudKubernetes, podTemplateList)
+    cloudList.clear()
     cloudList.add(kubernetesCloud)
 }
 jenkins.save()
